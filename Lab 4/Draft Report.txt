@@ -1,0 +1,155 @@
+1.
+distinct to remove duplicate records
+checking if customer exists in both depositor(for account) and borrower(for loan)
+
+intersect new word
+like set intersection
+result is the common records from 2 queries
+first query shows customers with accounts
+second query shows customers with loans
+so intersection is customer with accounts and loans
+
+2.
+distinct to remove duplicate records
+checking if customer exists in either depositor(for account) or borrower(for loan)
+
+union new word
+like set union
+results in all the records of two queries
+first query shows customers with accounts
+second query shows customers with loans
+so union is customer with either accounts or loans or both
+
+3.
+distinct to remove duplicate records
+first checking if customer has a loan (in borrower table)
+then checking if that customer doesn not have an account for which 'not in' was used with a nested query
+the nested query returned all the customer names who have an account 
+and that was cross checked with the customers who have a loan
+the ones who did not have a record in depositor was printed
+
+minus new word
+like mathematical subtraction operation
+returns the leftover query after removing the records of the second query from the first one
+so first query returned all the customer names with loans
+second query returned all the customer names with account
+first query minus second query gives all the customers with loans only and no account
+
+4.
+sum() was used
+returns sum of a numeric column
+
+5.
+for total number of accounts i used count() function with input as account.account_number
+to show 0 for the branch cities with no account i used coalesce() function to return 0 instead of null
+i labelled this column as count_account_num
+then i left joined the branch table with account table so that all the branch cities are shown
+even if that branch city doesn not exist in account
+this way 0 can be shown for a branch city with no accounts
+to show the total accounts for each branch city, i used group by
+lastly i used order by to organise the results alphabetically so that it is easier to check or count
+
+6.
+for average balance of accounts i used avg() function with input as account.balance
+to show 0 for the branch cities with no balance or no account i used coalesce() function to return 0 instead of null
+i labelled this column as avg_balance
+then i left joined branch table with account table so on the condition that branch name are same in both
+this also allows any branch name not in account but in branch to be shown
+that is if there is a branch with no account in that branch_name then the output will be shown as 0
+instead of dismissing that record entirely
+to find the avg for each branch i used group by branch.branch_name
+the question also asked the result to be ordered in descending order by avergae balance
+for that i used order by avg_balance desc
+
+7.
+total balance not being calculated properly
+to show the total balance sum() was used with account.balance as input
+then i left joined branch with account on the condition that branch names are same in both tables
+this also allows any branch name not in account but in branch to be shown
+that is if there is a branch with no account in that branch_name then the output will be shown as 0
+instead of dismissing that record entirely
+the result was grouped by branch city to calculate the total balance for each branch city
+i used orderby at the end to sort the results alphabetically according to branch city so that 
+it is easier to check the result
+
+8.
+i used avg() with input as loan.amount to calculate the average loan
+then i left joined branch with loan on the condition that both have the same branch name
+this also allows any branch name not in loan but in branch to be shown
+that is if there is a branch with no loan in that branch_name then the output will be shown as 0
+instead of dismissing that record entirely
+i then used the condition where branch.branch_city!='Horseneck' 
+to dismiss the branch records with that city
+otherwise the output would show 0 for those
+Group by used to find the avg for each branch 
+and then orderby to sort results alphabetically
+
+having keyword=pain
+keeps showing error saying not a group by expression
+overcome by using nested query
+after using having, nested query was used to find the branch names
+which have 'Horseneck' as branch city
+it was showing error before because in the select statement there were no branch_city 
+and for group by and having clauses the select attributes have to be mentioned after those clauses
+or in an aggregate function
+
+9.
+nested query for max balance checking
+
+all keyword=pain
+all keyword check if the result for the query in all() 
+return true for all values
+so balance will be greater than or equal to all the other balance
+which means max balance
+
+10.
+accessing four tables at once
+connect customer table with depositor table to check if customer has account
+connect depositor table with account table using account_number
+connect account table with branch table using branch_name
+connect branch with account using customer_city to check if customer lives in same city
+
+11.
+invalid identifier for avg loan
+expression missing for group by
+problem without nested query in from
+nested query in from allows average to be calculated before doing operation on it in where
+natural join joins branch and loan table where both have the same branch name
+
+in having avg_loan didnt work
+avg(amount) works fine
+natural join joins branch and loan table where both have the same branch name
+
+12.
+from branch natural join account so only working on record 
+which have same branch_name in both tables
+we group the result by branch_name
+on the condition that the sum of balance in that branch city
+is greater than the avg of all balance
+which is found using a nested subquery
+
+13.
+distinct to avoid repetitions
+from has 2 subqueries
+first subqueries return the total balance for each customer
+second subquery return the individual loan amounts for each customer
+the two queries were then natural joined to create one table with all the required info
+from that table the loan amount was compared with the total balance
+if loan was less or equal then that means it could be paid off so then that customer name
+would be printed. 
+
+14.
+first it was checked if the customer city and the branch city are the same
+then there are 3 sub queries
+first one returns customers who have no account or loan
+with which we cross check if the customer is in that list or not
+second one checks if the branch was used for making any loans
+third one checks if the branch was used for making any accounts
+
+hard part was figuring out how the subqueries will be connected
+
+
+
+
+
+
